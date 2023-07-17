@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "254646857517",
+    "project_id": "questbit-app",
+    "storage_bucket": "questbit-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254646857517:android:4e51b2f91c295925be2da4",
+        "android_client_info": {
+          "package_name": "com.questbit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "254646857517-abk61qhj7ph0ubnfkg0j8v0cdcm1sn42.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSx4o2lAswf3SVfYvAJ2RI4VoOWY2nX8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "254646857517-abk61qhj7ph0ubnfkg0j8v0cdcm1sn42.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
