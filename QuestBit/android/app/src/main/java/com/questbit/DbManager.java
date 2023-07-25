@@ -53,8 +53,8 @@ public class DbManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public String createNewQuestBit(String name, String reporter) {
-        return addQuestBitToDb(new QuestBit(name, reporter));
+    public String createNewQuestBit(String name, String reporter, String description, String assignee) {
+        return addQuestBitToDb(new QuestBit(name, reporter, description, assignee));
     }
 
     @ReactMethod

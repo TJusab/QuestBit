@@ -4,10 +4,11 @@ import { NativeModules } from 'react-native';
 
 const { DbManager } = NativeModules;
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
     const [title, setTitle] = useState('');
     const [reporter, setReporter] = useState('');
     const [description, setDescription] = useState('');
+    const [assignee, setAssignee] = useState('');
 
     const handleTitleChange = (text: string) => {
         setTitle(text);
@@ -21,8 +22,17 @@ const HomePage = () => {
         setDescription(text);
     };
 
+    const handleAssigneeChange = (text: string) => {
+        setAssignee(text);
+    };
+
     const handleSubmit = () => {
-        var questBitId = DbManager.createNewQuestBit(title, reporter);
+        var questBitId = DbManager.createNewQuestBit(
+            title,
+            reporter, 
+            description,
+            assignee,
+        );
     };
 
     return (
@@ -43,12 +53,20 @@ const HomePage = () => {
                 placeholder='Enter the name of the reporter'
             />
 
-            <Text style={styles.label}>Description</Text>
+            <Text style={styles.label}>Description:</Text>
             <TextInput 
                 style={styles.input}
                 value={description}
                 onChangeText={handleDescriptionChange}
                 placeholder='Enter a description of the QuestBit'
+            />
+
+            <Text style={styles.label}>Assignee:</Text>
+            <TextInput 
+                style={styles.input}
+                value={assignee}
+                onChangeText={handleAssigneeChange}
+                placeholder='Enter an assignee for the QuestBit'
             />
 
         <Button title="Submit" onPress={handleSubmit} />
