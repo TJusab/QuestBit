@@ -1,31 +1,43 @@
 import React from 'react';
-import AddQuestBit from './components/AddQuestBit';
+import AddQuestBit from './android/app/components/AddQuestBit';
+import QuestBitHome from './android/app/components/QuestBitHome';
+import QuestBitDetails from './android/app/components/QuestBitDetails';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import QuestBitHome from './components/QuestBitHome';
-import { QuestBit } from './constants/QuestBit';
-
-const Stack = createNativeStackNavigator();
 
 export type RootStackParamList = {
-  QuestBitHome: undefined;
+  Home: undefined;
   AddQuestBit: undefined;
-  QuestBitDetails: { questBit: QuestBit };
+  QuestBit: undefined;
 };
+
+interface QuestBit {
+  name: string;
+  reporter: string;
+  description: string;
+  assignee: string;
+}
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
+        <Stack.Screen 
+          name="Home"
+          component={QuestBitHome}
+          options={{title: 'Welcome'}}
+        />
+        <Stack.Screen 
           name="AddQuestBit"
-          component={ AddQuestBit }
-          options={{ title: 'Create a QuestBit!' }}
+          component={AddQuestBit}
+          options={{title: 'Add a new QuestBit'}}
         />
         <Stack.Screen
-          name="QuestBitHome"
-          component={ QuestBitHome }
-          options={{ title: 'Welcome!' }}
+          name="QuestBit"
+          component={QuestBitDetails}
+          options={{title: 'QuestBit'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
