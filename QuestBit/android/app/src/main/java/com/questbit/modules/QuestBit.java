@@ -23,12 +23,12 @@ public class QuestBit {
     private String _creationDate;
 
     //--------------- Constructor ---------------//
-    public QuestBit(String name, String reporter) {
+    public QuestBit(String name, String reporter, String description, String assignee) {
         _info = new LinkedHashMap<>();
         _info.put("name", name);
         _info.put("reporter", reporter);
-        _info.put("description", "");
-        _info.put("assignee", "");
+        _info.put("description", description);
+        _info.put("assignee", assignee);
         _info.put("dueDate", "");
         _info.put("urgency", "");
         _info.put("state", State.TO_BE_STARTED);
