@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, NativeModules} from 'react-native';
+import { View, StyleSheet, NativeModules, Alert } from 'react-native';
 import { Input } from '@rneui/themed';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Button } from 'react-native-elements';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
+
+type AddQuestBitProps = {
+    navigation: NativeStackNavigationProp<RootStackParamList, 'AddQuestBit'>
+};
 
 const { DbManager } = NativeModules;
 
-type AddQuestBitNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'AddQuestBit'
->;
-
-type Props = {
-  navigation: AddQuestBitNavigationProp;
-};
-
-const AddQuestBit: React.FC<Props> = ({ navigation }) => {
+const AddQuestBit: React.FC<AddQuestBitProps> = ({navigation}) => {
     const [questBit, setQuestBit] = useState({
         name: '',
         reporter: '',
@@ -27,11 +22,19 @@ const AddQuestBit: React.FC<Props> = ({ navigation }) => {
 
     const handleSaveQuestBit = () => {
         DbManager.createNewQuestBit(questBit.name, questBit.reporter, questBit.description, questBit.assignee);
-        console.log('QuestBit data:', questBit);
+        Alert.alert(
+            'QuestBit Added',
+            'A new QuestBit has been added successfully!',
+            [
+              {
+                text: 'OK',
+              },
+            ],
+            { cancelable: false }
+          );
     };
 
     return (
-
         <View style={styles.container}>
             <Input 
                 label="QuestBit Name"
@@ -64,7 +67,7 @@ const AddQuestBit: React.FC<Props> = ({ navigation }) => {
                     buttonStyle={styles.addButton}
                 />
                 <Button 
-                    onPress={() => navigation.navigate('QuestBitHome')} 
+                    onPress={() => navigation.navigate('Home')} 
                     title="Go back to Home" 
                     buttonStyle={styles.goBackButton}
                 />

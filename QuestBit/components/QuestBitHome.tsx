@@ -1,39 +1,52 @@
-import React from 'react';
-import { View } from 'react-native';
+import { NativeModules, ScrollView } from 'react-native';
 import { Text, Button } from 'react-native-elements';
-import { Card } from '@rneui/themed';
-import { QuestBit } from '../constants/QuestBit';
+import React, { useState } from 'react';
+import QuestBitCard from './QuestBitCard';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
+import { useFocusEffect } from '@react-navigation/native';
 
-const QuestBitCard: React.FC<{ questBit: QuestBit }> = ({ questBit }) => {
-  return (
-    <Card>
-      <Card.Title>{questBit.name}</Card.Title>
-      <Card.Divider />
-      <Text>Reporter: {questBit.reporter}</Text>
-      <Text>Description: {questBit.description}</Text>
-      <Button
-        title="View Details"
-        onPress={() => navigation.navigate('QuestBitDetails', { questBit })}
-      />
-    </Card>
-  );
+type QuestBitHomeProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Home'>;
 };
 
-const QuestBitHome = ({ navigation }) => {
+const { DbManager } = NativeModules;
+
+const QuestBitHome: React.FC<QuestBitHomeProps> = ({navigation}) => {
+    const [questBits, setQuestBits] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+  const fetchQuestBits = async () => {
+    try {
+      const jsonQuestBits = await DbManager.getAllQuestBits();
+      setQuestBits(jsonQuestBits);
+    } catch (error) {
+      console.error('Error fetching QuestBits:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchQuestBits();
+    }, [])
+  );
+
   return (
-    <View>
-      {dummyQuestBits.length > 0 ? (
-        dummyQuestBits.map((questBit) => (
-          <QuestBitCard key={questBit.id} questBit={questBit} />
-        ))
-      ) : (
-        <Text>You have no QuestBits</Text>
-      )}
-      <Button
+    <ScrollView>
+        {questBits.length === 0 ? (
+            <Text>You have no QuestBits</Text>
+        ) : (
+            questBits.map((questBit, index) => (
+                <QuestBitCard key={index} questBit={questBit} navigation={navigation}/>
+            ))
+        )}
+      <Button 
         title="Add a QuestBit"
         onPress={() => navigation.navigate('AddQuestBit')}
       />
-    </View>
+    </ScrollView>
   );
 };
 

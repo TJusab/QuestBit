@@ -2,15 +2,16 @@ import React from 'react';
 import { View } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import { Card } from '@rneui/themed';
+import { QuestBit } from '../constants/QuestBit';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
 
-interface QuestBit {
-  name: string;
-  reporter: string;
-  description: string;
-  assignee: string;
-}
+type QuestBitCardProps = {
+  questBit: QuestBit;
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Home'>
+};
 
-const QuestBitCard: React.FC<{ questBit: QuestBit }> = ({ questBit }) => {
+const QuestBitCard: React.FC<QuestBitCardProps> = ({ questBit, navigation }) => {
   return (
     <Card containerStyle={styles.card}>
       <Card.Title style={styles.cardTitle}>{questBit.name}</Card.Title>
@@ -18,7 +19,13 @@ const QuestBitCard: React.FC<{ questBit: QuestBit }> = ({ questBit }) => {
         <Text>Reporter: {questBit.reporter}</Text>
         <Text>Description: {questBit.description}</Text>
         <Text>Assignee: {questBit.assignee}</Text>
-        <Button title="View Details" onPress={() => console.log('View details button clicked!') }/>
+        <Button 
+          title="View Details" 
+          onPress={() => {
+            navigation.navigate('QuestBitDetails', {
+              questBit: questBit,
+            });
+          }}/>
       </View>
     </Card>
   );
