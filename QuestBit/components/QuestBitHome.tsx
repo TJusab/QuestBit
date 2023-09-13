@@ -14,7 +14,6 @@ const { DbManager } = NativeModules;
 
 const QuestBitHome: React.FC<QuestBitHomeProps> = ({navigation}) => {
     const [questBits, setQuestBits] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
 
   const fetchQuestBits = async () => {
     try {
@@ -22,8 +21,6 @@ const QuestBitHome: React.FC<QuestBitHomeProps> = ({navigation}) => {
       setQuestBits(jsonQuestBits);
     } catch (error) {
       console.error('Error fetching QuestBits:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
