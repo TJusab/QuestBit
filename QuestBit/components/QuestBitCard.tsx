@@ -49,7 +49,7 @@ const QuestBitCard: React.FC<QuestBitCardProps> = ({ questBit, navigation }) => 
         <TouchableOpacity
           onPress={toggleDropdown}
           style={styles.dropdownButton}
-          ref={(ref) => (iconRef.current = ref)} // Ref to measure the position of the icon
+          ref={(ref) => (iconRef.current = ref)}
         >
           <Icon name="ellipsis-h" size={24} color="#000" />
         </TouchableOpacity>
