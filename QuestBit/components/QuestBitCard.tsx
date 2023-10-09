@@ -1,17 +1,20 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, NativeModules, Alert } from 'react-native';
 import { Card } from '@rneui/themed';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import an appropriate icon library
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { QuestBit } from '../constants/QuestBit';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 
+const { DbManager } = NativeModules;
+
 type QuestBitCardProps = {
   questBit: QuestBit;
   navigation: NativeStackNavigationProp<RootStackParamList, 'Home'>;
+  onDeleteQuestBit: (deletedKey: string) => void;
 }
 
-const QuestBitCard: React.FC<QuestBitCardProps> = ({ questBit, navigation }) => {
+const QuestBitCard: React.FC<QuestBitCardProps> = ({ questBit, navigation, onDeleteQuestBit }) => {
   const dropdownOptions = ['View Details', 'Delete questbit'];
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
@@ -28,14 +31,36 @@ const QuestBitCard: React.FC<QuestBitCardProps> = ({ questBit, navigation }) => 
     }
   };
 
-  const handleDropdownSelect = (option: string) => {
+  const handleDropdownSelect = async (option: string) => {
     setSelectedOption(option);
     if (option === 'View Details') {
       navigation.navigate('QuestBitDetails', {
         questBit: questBit,
       });
     } else if (option === 'Delete questbit') {
-      console.log('Delete button clicked!')
+      try {
+        Alert.alert(
+          'Delete QuestBit',
+          'Are you sure you want to delete the QuestBit?',
+          [
+            {
+              text: 'NO', 
+              style: 'cancel',
+            },
+            {
+              text: 'YES',
+              onPress: async () => {
+                await DbManager.deleteQuestBit(questBit.key);
+                onDeleteQuestBit(questBit.key);
+              },
+            },
+          ],
+          { cancelable: true }
+        );
+      } catch (error) {
+        console.error('Error deleting QuestBit:', error);
+      }
+          
     }
   };
 

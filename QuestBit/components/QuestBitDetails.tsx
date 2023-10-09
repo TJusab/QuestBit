@@ -1,10 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Button, Text } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { QuestBit } from '../constants/QuestBit';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../App';
+import { useRoute } from '@react-navigation/native';
 
 const QuestBitDetails = () => {
     const route = useRoute();
