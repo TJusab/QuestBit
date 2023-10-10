@@ -13,6 +13,8 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +62,20 @@ public class DbManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void deleteQuestBit(String key, Promise promise) {
+        _dbReference.child("questbit").child(key).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    promise.resolve(null);
+                } else {
+                    promise.reject("DELETE_ERROR", "Error deleting QuestBit");
+                }
+            }
+        });
+    }
+
+    @ReactMethod
     public void setValueQuestBit(QuestBit questBit, String attribute, String newValue) {
         questBit.setValue(attribute, newValue);
     }
@@ -80,6 +96,7 @@ public class DbManager extends ReactContextBaseJavaModule {
                 for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                     try {
                         WritableMap questBitObject = new WritableNativeMap();
+                        questBitObject.putString("key", childSnapshot.getKey());
                         questBitObject.putString("assignee", childSnapshot.child("assignee").getValue(String.class));
                         questBitObject.putString("description", childSnapshot.child("description").getValue(String.class));
                         questBitObject.putString("name", childSnapshot.child("name").getValue(String.class));

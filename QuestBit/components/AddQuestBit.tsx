@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Button } from 'react-native-elements';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
+import { QuestBit } from '../constants/QuestBit';
 
 type AddQuestBitProps = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'AddQuestBit'>
@@ -13,7 +14,8 @@ type AddQuestBitProps = {
 const { DbManager } = NativeModules;
 
 const AddQuestBit: React.FC<AddQuestBitProps> = ({navigation}) => {
-    const [questBit, setQuestBit] = useState({
+    const [questBit, setQuestBit] = useState<QuestBit>({
+        key: '',
         name: '',
         reporter: '',
         description: '',
