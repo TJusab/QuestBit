@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.questbit.modules.QuestBit;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -73,6 +74,17 @@ public class DbManager extends ReactContextBaseJavaModule {
                 }
             }
         });
+    }
+
+    @ReactMethod
+    public void updateQuestBit(String key, String name, String reporter, String description, String assignee) {
+        DatabaseReference questBitRef = _dbReference.child("questbit").child(key);
+        questBitRef.child("name").setValue(name);
+        questBitRef.child("reporter").setValue(reporter);
+        questBitRef.child("description").setValue(description);
+        questBitRef.child("assignee").setValue(assignee);
+
+        Log.i("QUESTBIT UPDATED", "Questbit with key updated: " + key);
     }
 
     @ReactMethod

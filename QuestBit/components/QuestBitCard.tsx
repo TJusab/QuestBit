@@ -15,7 +15,7 @@ type QuestBitCardProps = {
 }
 
 const QuestBitCard: React.FC<QuestBitCardProps> = ({ questBit, navigation, onDeleteQuestBit }) => {
-  const dropdownOptions = ['View Details', 'Delete questbit'];
+  const dropdownOptions = ['View Details', 'Delete QuestBit'];
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -37,7 +37,7 @@ const QuestBitCard: React.FC<QuestBitCardProps> = ({ questBit, navigation, onDel
       navigation.navigate('QuestBitDetails', {
         questBit: questBit,
       });
-    } else if (option === 'Delete questbit') {
+    } else if (option === 'Delete QuestBit') {
       try {
         Alert.alert(
           'Delete QuestBit',
@@ -59,9 +59,8 @@ const QuestBitCard: React.FC<QuestBitCardProps> = ({ questBit, navigation, onDel
         );
       } catch (error) {
         console.error('Error deleting QuestBit:', error);
-      }
-          
-    }
+      }  
+    } 
   };
 
   return (
